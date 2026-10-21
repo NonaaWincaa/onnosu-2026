@@ -82,15 +82,14 @@ public function updateStatus($id, $status)
     $order = TiketOrder::findOrFail($id);
     $order->update(['status_pembayaran' => $status]);
 
-    // Jika status Verified, coba kirim email
+    // Kirim E-Tiket ke email jika status Verified
     if ($status === 'Verified' && !empty($order->email)) {
         try {
-            // Menggunakan queue agar respons HTTP langsung dikirim tanpa menunggu SMTP selesai
-            Mail::to($order->email)->queue(new ETicketMail($order));
-            return redirect()->back()->with('sukses', 'Status berhasil diperbarui! E-Tiket dijadwalkan terkirim.');
+            // Gunakan ->send() agar email langsung dikirim saat tombol diklik
+            Mail::to($order->email)->send(new ETicketMail($order));
+            return redirect()->back()->with('sukses', 'Status berhasil diperbarui & E-Tiket telah terkirim ke email!');
         } catch (\Throwable $e) {
-            // Jika queue gagal atau SMTP bermasalah, database tetap ter-update
-            return redirect()->back()->with('sukses', 'Status berhasil diperbarui ke Verified (Kirim email otomatis gagal, silakan gunakan fitur Kirim Email Manual).');
+            return redirect()->back()->with('sukses', 'Status berhasil diperbarui ke Verified (Email otomatis gagal: ' . $e->getMessage() . '). Silakan gunakan tombol Kirim Email Manual.');
         }
     }
 
