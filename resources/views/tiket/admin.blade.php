@@ -33,7 +33,7 @@
                         <tr>
                             <th class="p-3">#</th>
                             <th class="p-3">Nama & Email</th>
-                            <th class="p-3">Jurusan / Fakultas</th> <!-- UPDATE HEADER -->
+                            <th class="p-3">Jurusan / Fakultas</th>
                             <th class="p-3">Jumlah & Batch</th>
                             <th class="p-3">Total Bayar</th>
                             <th class="p-3">Bukti Bayar</th>
@@ -59,7 +59,7 @@
                             </td>
 
                             <!-- KOLOM JURUSAN & ASAL FAKULTAS -->
-                            <td class="p-3">{{ $row->jurusan }} / <br><span class="text-gray-400">{{ $row->asal_fakultas }}</span></td> <!-- UPDATE DATA -->
+                            <td class="p-3">{{ $row->jurusan }} / <br><span class="text-gray-400">{{ $row->asal_fakultas }}</span></td>
                             <td class="p-3">{{ $row->jumlah_tiket }} Tiket <br><span class="text-[#E5C158] font-semibold">{{ $row->batch_pembelian }}</span></td>
                             <td class="p-3 font-semibold text-emerald-400">
                                 Rp {{ number_format($row->total_bayar, 0, ',', '.') }}
@@ -76,15 +76,24 @@
                                 </span>
                             </td>
 
-                            <!-- TOMBOL AKSI & KIRIM TIKET -->
+                            <!-- TOMBOL AKSI & KIRIM TIKET (DIUBAH DARI <a> JADI <form>) -->
                             <td class="p-3 space-y-1">
                                 <div class="flex gap-1">
-                                    <a href="{{ route('admin.update', [$row->id, 'Verified']) }}" class="bg-emerald-600 hover:bg-emerald-500 text-white px-2 py-1 rounded text-[10px] font-bold transition">
-                                        Approve & Kirim Tiket
-                                    </a>
-                                    <a href="{{ route('admin.update', [$row->id, 'Rejected']) }}" class="bg-rose-600 hover:bg-rose-500 text-white px-2 py-1 rounded text-[10px] font-bold transition">
-                                        Reject
-                                    </a>
+                                    <!-- FORM APPROVE -->
+                                    <form action="{{ route('admin.update', [$row->id, 'Verified']) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white px-2 py-1 rounded text-[10px] font-bold transition">
+                                            Approve & Kirim Tiket
+                                        </button>
+                                    </form>
+
+                                    <!-- FORM REJECT -->
+                                    <form action="{{ route('admin.update', [$row->id, 'Rejected']) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="bg-rose-600 hover:bg-rose-500 text-white px-2 py-1 rounded text-[10px] font-bold transition">
+                                            Reject
+                                        </button>
+                                    </form>
                                 </div>
 
                                 @if(!empty($row->email))
