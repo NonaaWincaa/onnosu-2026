@@ -16,7 +16,7 @@ class TiketOrder extends Model
         'nama',
         'email',
         'jurusan',
-        'asal_univ',
+        'asal_fakultas',
         'jumlah_tiket',
         'batch_pembelian',
         'harga_per_tiket',

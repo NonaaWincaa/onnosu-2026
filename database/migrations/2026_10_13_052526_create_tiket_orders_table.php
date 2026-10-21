@@ -17,7 +17,7 @@ return new class extends Migration
         $table->string('nama');
         $table->string('email')->nullable(); // <-- TAMBAHKAN BARIS INI
         $table->string('jurusan');
-        $table->string('asal_univ');
+        $table->string('asal_fakultas');
         $table->integer('jumlah_tiket');
         $table->string('batch_pembelian');
         $table->integer('harga_per_tiket');

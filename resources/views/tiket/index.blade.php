@@ -45,8 +45,8 @@
             </div>
 
             <div>
-                <label class="block text-xs font-semibold text-[#E5C158] uppercase mb-1">Asal Universitas</label>
-                <input type="text" name="asal_univ" required class="w-full bg-[#2A080C] border border-[#E5C158]/30 rounded-lg p-2.5 text-white focus:outline-none focus:border-[#E5C158]">
+                <label class="block text-xs font-semibold text-[#E5C158] uppercase mb-1">Asal fakultas</label>
+                <input type="text" name="asal_fakultas" required class="w-full bg-[#2A080C] border border-[#E5C158]/30 rounded-lg p-2.5 text-white focus:outline-none focus:border-[#E5C158]">
             </div>
 
             <div>

@@ -33,7 +33,7 @@
                         <tr>
                             <th class="p-3">#</th>
                             <th class="p-3">Nama & Email</th>
-                            <th class="p-3">Jurusan / Univ</th>
+                            <th class="p-3">Jurusan / Fakultas</th> <!-- UPDATE HEADER -->
                             <th class="p-3">Jumlah & Batch</th>
                             <th class="p-3">Total Bayar</th>
                             <th class="p-3">Bukti Bayar</th>
@@ -58,7 +58,8 @@
                                 @endif
                             </td>
 
-                            <td class="p-3">{{ $row->jurusan }} / <br><span class="text-gray-400">{{ $row->asal_univ }}</span></td>
+                            <!-- KOLOM JURUSAN & ASAL FAKULTAS -->
+                            <td class="p-3">{{ $row->jurusan }} / <br><span class="text-gray-400">{{ $row->asal_fakultas }}</span></td> <!-- UPDATE DATA -->
                             <td class="p-3">{{ $row->jumlah_tiket }} Tiket <br><span class="text-[#E5C158] font-semibold">{{ $row->batch_pembelian }}</span></td>
                             <td class="p-3 font-semibold text-emerald-400">
                                 Rp {{ number_format($row->total_bayar, 0, ',', '.') }}
