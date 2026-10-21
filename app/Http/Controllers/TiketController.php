@@ -13,10 +13,12 @@ class TiketController extends Controller
     {
         $tgl_sekarang = date('Y-m-d');
 
+        // BATCH 1: Presale 1 (20k) -> Berlaku s.d. 31 Oktober 2026
         if ($tgl_sekarang <= '2026-10-31') {
             $batch_nama = "Presale 1";
             $harga_tiket = 20000;
         } else { 
+            // BATCH 2: Presale 2 (25k) -> Mulai 01 November 2026
             $batch_nama = "Presale 2";
             $harga_tiket = 25000;
         }
@@ -49,6 +51,7 @@ class TiketController extends Controller
         $diskon = ($jumlah_tiket >= 4) ? 5000 : 0;
         $total_bayar = ($jumlah_tiket * $harga_tiket) - $diskon;
 
+        // Upload Bukti Bayar
         $file = $request->file('bukti_pembayaran');
         $filename = time() . '_' . $file->getClientOriginalName();
         $file->move(public_path('uploads'), $filename);
@@ -72,21 +75,30 @@ class TiketController extends Controller
     public function admin()
     {
         $orders = TiketOrder::latest()->get();
-        // Sesuaikan dengan letak admin.blade.php
         return view('admin', compact('orders'));
     }
 
-    public function updateStatus($id, $status)
-    {
-        $order = TiketOrder::findOrFail($id);
-        $order->update(['status_pembayaran' => $status]);
+   public function updateStatus($id, $status)
+{
+    // Naikkan limit eksekusi khusus untuk method ini agar tidak gampang timeout
+    set_time_limit(120);
 
-        if ($status === 'Verified' && !empty($order->email)) {
+    $order = TiketOrder::findOrFail($id);
+    $order->update(['status_pembayaran' => $status]);
+
+    // Kirim E-Tiket ke email jika status Verified
+    if ($status === 'Verified' && !empty($order->email)) {
+        try {
             Mail::to($order->email)->send(new ETicketMail($order));
+            return redirect()->back()->with('sukses', 'Status berhasil di-update dan E-Tiket telah terkirim ke email!');
+        } catch (\Exception $e) {
+            // Jika SMTP gagal/timeout, status pembayaran TETAP ter-update di database
+            return redirect()->back()->with('sukses', 'Status berhasil di-update ke Verified (Gagal mengirim email otomatis: ' . $e->getMessage() . ').');
         }
-
-        return redirect()->back()->with('sukses', 'Status pembayaran berhasil diperbarui dan E-Tiket telah dikirim ke email pemesan.');
     }
+
+    return redirect()->back()->with('sukses', 'Status pembayaran berhasil diperbarui.');
+}
 
     public function exportCsv()
     {
