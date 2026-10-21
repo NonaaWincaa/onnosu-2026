@@ -73,10 +73,10 @@ class TiketController extends Controller
     }
 
     public function admin()
-    {
-        $orders = TiketOrder::latest()->get();
-        return view('admin', compact('orders'));
-    }
+{
+    $orders = TiketOrder::latest()->get();
+    return view('tiket.admin', compact('orders')); // Ubah 'admin' menjadi 'tiket.admin'
+}
 public function updateStatus($id, $status)
 {
     $order = TiketOrder::findOrFail($id);
