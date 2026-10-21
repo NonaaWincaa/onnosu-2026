@@ -14,7 +14,6 @@
                 <p class="text-xs text-gray-300">Kelola & Verifikasi Pemesanan Tiket</p>
             </div>
 
-            <!-- TOMBOL DOWNLOAD REKAP EXCEL/CSV -->
             <a href="{{ route('admin.export') }}" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2 rounded-lg flex items-center gap-2 transition shadow-lg">
                 📊 Download Rekap (Excel/CSV)
             </a>
@@ -46,7 +45,6 @@
                         <tr class="hover:bg-[#2A080C]/50 transition duration-150">
                             <td class="p-3">{{ $key + 1 }}</td>
                             
-                            <!-- KOLOM NAMA & EMAIL -->
                             <td class="p-3 font-bold text-white">
                                 {{ $row->nama }} <br>
                                 @if(!empty($row->email))
@@ -58,7 +56,6 @@
                                 @endif
                             </td>
 
-                            <!-- KOLOM JURUSAN & ASAL FAKULTAS -->
                             <td class="p-3">{{ $row->jurusan }} / <br><span class="text-gray-400">{{ $row->asal_fakultas }}</span></td>
                             <td class="p-3">{{ $row->jumlah_tiket }} Tiket <br><span class="text-[#E5C158] font-semibold">{{ $row->batch_pembelian }}</span></td>
                             <td class="p-3 font-semibold text-emerald-400">
@@ -76,10 +73,8 @@
                                 </span>
                             </td>
 
-                            <!-- TOMBOL AKSI & KIRIM TIKET (DIUBAH DARI <a> JADI <form>) -->
                             <td class="p-3 space-y-1">
                                 <div class="flex gap-1">
-                                    <!-- FORM APPROVE -->
                                     <form action="{{ route('admin.update', [$row->id, 'Verified']) }}" method="POST">
                                         @csrf
                                         <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white px-2 py-1 rounded text-[10px] font-bold transition">
@@ -87,7 +82,6 @@
                                         </button>
                                     </form>
 
-                                    <!-- FORM REJECT -->
                                     <form action="{{ route('admin.update', [$row->id, 'Rejected']) }}" method="POST">
                                         @csrf
                                         <button type="submit" class="bg-rose-600 hover:bg-rose-500 text-white px-2 py-1 rounded text-[10px] font-bold transition">

@@ -13,12 +13,10 @@ class TiketController extends Controller
     {
         $tgl_sekarang = date('Y-m-d');
 
-        // BATCH 1: Presale 1 (20k) -> Berlaku s.d. 31 Oktober 2026
         if ($tgl_sekarang <= '2026-10-31') {
             $batch_nama = "Presale 1";
             $harga_tiket = 20000;
         } else { 
-            // BATCH 2: Presale 2 (25k) -> Mulai 01 November 2026
             $batch_nama = "Presale 2";
             $harga_tiket = 25000;
         }
@@ -39,12 +37,10 @@ class TiketController extends Controller
 
         $tgl_sekarang = date('Y-m-d');
 
-        // BATCH 1: Presale 1 (20k) -> Berlaku s.d. 31 Oktober 2026
         if ($tgl_sekarang <= '2026-10-31') {
             $batch_nama = "Presale 1";
             $harga_tiket = 20000;
         } else { 
-            // BATCH 2: Presale 2 (25k) -> Mulai 01 November 2026
             $batch_nama = "Presale 2";
             $harga_tiket = 25000;
         }
@@ -53,7 +49,6 @@ class TiketController extends Controller
         $diskon = ($jumlah_tiket >= 4) ? 5000 : 0;
         $total_bayar = ($jumlah_tiket * $harga_tiket) - $diskon;
 
-        // Upload Bukti Bayar
         $file = $request->file('bukti_pembayaran');
         $filename = time() . '_' . $file->getClientOriginalName();
         $file->move(public_path('uploads'), $filename);
@@ -77,7 +72,8 @@ class TiketController extends Controller
     public function admin()
     {
         $orders = TiketOrder::latest()->get();
-        return view('tiket.admin', compact('orders'));
+        // Sesuaikan dengan letak admin.blade.php
+        return view('admin', compact('orders'));
     }
 
     public function updateStatus($id, $status)
@@ -85,7 +81,6 @@ class TiketController extends Controller
         $order = TiketOrder::findOrFail($id);
         $order->update(['status_pembayaran' => $status]);
 
-        // Kirim E-Tiket ke email pemesan jika status diubah menjadi Verified
         if ($status === 'Verified' && !empty($order->email)) {
             Mail::to($order->email)->send(new ETicketMail($order));
         }
