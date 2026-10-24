@@ -79,17 +79,20 @@ class TiketController extends Controller
 }
 public function updateStatus($id, $status)
 {
+    // Hilangkan batas waktu eksekusi khusus untuk permintaan ini
+    set_time_limit(0);
+
     $order = TiketOrder::findOrFail($id);
     $order->update(['status_pembayaran' => $status]);
 
     // Kirim E-Tiket ke email jika status Verified
     if ($status === 'Verified' && !empty($order->email)) {
         try {
-            // Gunakan ->send() agar email langsung dikirim saat tombol diklik
             Mail::to($order->email)->send(new ETicketMail($order));
             return redirect()->back()->with('sukses', 'Status berhasil diperbarui & E-Tiket telah terkirim ke email!');
         } catch (\Throwable $e) {
-            return redirect()->back()->with('sukses', 'Status berhasil diperbarui ke Verified (Email otomatis gagal: ' . $e->getMessage() . '). Silakan gunakan tombol Kirim Email Manual.');
+            // Jika SMTP timeout/error, status di DB tetap Verified & admin mendapat notifikasi
+            return redirect()->back()->with('sukses', 'Status berhasil diperbarui ke Verified (Email otomatis gagal terkirim: ' . $e->getMessage() . '). Silakan klik Kirim Email Manual.');
         }
     }
 
