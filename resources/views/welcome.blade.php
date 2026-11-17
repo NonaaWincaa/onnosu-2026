@@ -34,7 +34,7 @@
     @if($errors->any())
         <div class="bg-red-900/80 border border-red-500 text-red-200 text-xs text-left p-3 rounded-lg mb-4">
             <ul class="list-disc list-inside space-y-1">
-                @foreach($errors->all() as$error)
+                @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
