@@ -12,7 +12,7 @@
         <div class="text-center mb-6">
             <h1 class="text-3xl font-extrabold text-[#E5C158] tracking-wider uppercase mb-1">ONNOSU 2026</h1>
             <p class="text-sm text-[#FDF8EC] opacity-80 tracking-widest uppercase">One Night in North Sumatera</p>
-            <p class="text-xs text-[#E5C158] mt-1">🗓 07 November 2026</p>
+            <p class="text-xs text-[#E5C158] mt-1">🗓 27 November 2026</p>
         </div>
 
         <div class="bg-[#2A080C] border border-[#E5C158]/50 rounded-xl p-3 text-center mb-6">

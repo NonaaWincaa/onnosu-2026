@@ -32,12 +32,14 @@
             </table>
 
             <p style="margin-top: 20px; background-color: #2A080C; padding: 10px; border-radius: 8px; text-align: center; color: #E5C158;">
-                📌 Tunjuukan email ini kepada panitia di pintu masuk venue pada tanggal <strong>07 November 2026</strong>.
+                📌 Tunjukkan email ini kepada panitia di pintu masuk venue pada tanggal <strong>27 November 2026</strong>.
             </p>
         </div>
 
         <div class="footer">
-            Sampai jumpa di ONNOSU 2026! 🎉<br>
+            Sampai jumpa di ONNOSU 2026! 🎉
+            lapangan gsg Telkom univeristy
+            27 november 2026, 18.00<br>
             <i>Panitia ONNOSU 2026</i>
         </div>
     </div>
