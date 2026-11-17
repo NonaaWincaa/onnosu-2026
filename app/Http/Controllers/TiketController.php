@@ -9,25 +9,27 @@ use App\Mail\ETicketMail;
 
 class TiketController extends Controller
 {
-    public function index()
+   public function index()
     {
         $tgl_sekarang = date('Y-m-d');
+        $is_buka = ($tgl_sekarang >= '2026-11-17' && $tgl_sekarang <= '2026-11-27');
 
-        // BATCH 1: Presale 1 (20k) -> Berlaku s.d. 31 Oktober 2026
-        if ($tgl_sekarang <= '2026-10-31') {
-            $batch_nama = "Presale 1";
-            $harga_tiket = 20000;
-        } else { 
-            // BATCH 2: Presale 2 (25k) -> Mulai 01 November 2026
-            $batch_nama = "Presale 2";
-            $harga_tiket = 25000;
-        }
+        // Sesuaikan nama batch & harga yang aktif untuk periode 17 - 27 Nov 2026
+        $batch_nama = "Presale 3"; 
+        $harga_tiket = 25000;
 
-        return view('tiket.index', compact('batch_nama', 'harga_tiket'));
+        return view('tiket.index', compact('batch_nama', 'harga_tiket', 'is_buka'));
     }
 
     public function store(Request $request)
     {
+        $tgl_sekarang = date('Y-m-d');
+
+        // Validasi rentang tanggal buka pemesanan (17 - 27 November 2026)
+        if ($tgl_sekarang < '2026-11-17' || $tgl_sekarang > '2026-11-27') {
+            return redirect()->back()->with('error', 'Maaf, pemesanan tiket hanya dibuka pada tanggal 17 – 27 November 2026.');
+        }
+
         $request->validate([
             'nama' => 'required|string|max:100',
             'email' => 'required|email|max:150',
@@ -37,15 +39,8 @@ class TiketController extends Controller
             'bukti_pembayaran' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $tgl_sekarang = date('Y-m-d');
-
-        if ($tgl_sekarang <= '2026-10-31') {
-            $batch_nama = "Presale 1";
-            $harga_tiket = 20000;
-        } else { 
-            $batch_nama = "Presale 2";
-            $harga_tiket = 25000;
-        }
+        $batch_nama = "Batch 3";
+        $harga_tiket = 25000;
 
         $jumlah_tiket = $request->jumlah_tiket;
         $diskon = ($jumlah_tiket >= 4) ? 5000 : 0;
